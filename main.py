@@ -7,9 +7,15 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 import requests
 from fastapi.responses import JSONResponse
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import Response
 
 
-
+class NoCacheMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response: Response = await call_next(request)
+        response.headers["Cache-Control"] = "no-store"
+        return response
 client=MongoClient("mongodb://localhost:27018/")
 db=client["track"]
 collection=db['tracktender']
@@ -38,7 +44,9 @@ def home(request:Request):
 async def add(request:Request):
     data= await request.json()
     print(data)
-
+    document=collection.find({"workname":data["workname"]})
+    if document:
+        return {"status":"failed due to duplication"}
     result =collection.insert_one(data)
 
     return {"status": "ok", "inserted_id": str(result.inserted_id)}
@@ -47,7 +55,17 @@ def additem(request:Request):
     data=request.json() 
 
     return 'null'
-
 @app.get('/workdetails')
 def showork():
-        return list(collection.find({}, {'_id': False}))
+
+
+    return (list(collection.find({}, {"_id": False})))
+
+@app.post('/dlt')
+async def dlt(request:Request):
+     data= await request.json()
+     query=data
+     collection.delete_one(query)
+     print(query)
+     return {"status":"deleted"}
+     

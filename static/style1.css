@@ -1,0 +1,147 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ffffff; /* Very light green background for the body */
+}
+
+/* Base styling for details element */
+details {
+    background-color: #ffffff; /* Light green background to make it stand out */
+    border: 1px solid #a7d9b7; /* Subtle green border */
+    border-radius: 8px; /* Rounded corners */
+    margin: 15px 0; /* Space above and below */
+    padding: 15px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Soft shadow */
+    transition: all 0.3s ease-in-out; /* Smooth transition for state changes */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    max-width: 800px; /* Constrain width for better readability */
+    width: 400px; /* Ensure it takes full width up to max-width */
+    transition: 0s;
+}
+
+/* Styling for the summary (the clickable part) */
+summary {
+
+  
+    font-weight: 400; /* Slightly bolder text */
+    font-size: 1.1em; /* Slightly larger text */
+    color: #16a34a; /* A prominent green color to indicate interactivity */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    outline: none; /* Remove default focus outline for a cleaner look */
+    padding-right: 25px; /* Space for the custom arrow */
+    position: relative; /* For custom arrow positioning */
+    list-style: none; /* Hide default triangle/arrow */
+}
+
+/* Custom arrow for summary element */
+summary::-webkit-details-marker {
+    display: none; /* Hide default marker for Webkit browsers */
+}
+
+summary::before {
+    content: '►'; /* Right-pointing triangle as default */
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg); /* Start rotated */
+    transition: transform 0.2s ease; /* Smooth rotation */
+    font-size: 0.8em;
+    color: #16a34a;
+}
+details[open] {
+  transition: 0s;
+
+  width: 100%;
+}
+
+/* Rotate arrow when details is open */
+details[open] summary::before {
+    transform: translateY(-50%) rotate(90deg); /* Rotate to point down */
+
+}
+
+/* Content inside the details tag */
+details p {
+    margin-top: 15px; /* Space between summary and content */
+    line-height: 1.6;
+    color: #555;
+    border-top: 1px solid #dcfce7; /* Lighter green separator line */
+    padding-top: 15px;
+    width: 100%;
+}
+
+/* Optional: Styling for a details group */
+.details-group details {
+    margin-bottom: 10px; /* Less margin between grouped details */
+    width: 100%;
+}
+.details-group details:last-child {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+/* Overall Table Styling */
+table {
+    width: 100%;
+    max-width: 900px; /* Max width for better presentation */
+    border-collapse: collapse; /* Essential for clean borders */
+    margin: 20px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Slightly rounded corners for the table */
+    overflow: hidden; /* Ensures border-radius applies to inner content */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* A clean, readable font */
+    border: 1px solid #a7d9b7; /* Green border for the whole table */
+}
+
+/* Table Header Styling */
+thead {
+    background-color: #16a34a; /* A nice primary green */
+    color: #ffffff; /* White text for contrast */
+}
+
+th {
+    padding: 15px 20px;
+    text-align: left;
+    font-weight: 600; /* Slightly bolder than normal */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #107c37; /* Darker green border for header cells */
+}
+
+/* Table Body Row Styling */
+tbody tr {
+    /* No direct background transition on the row itself */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e6ffe6; /* Very light green for even rows */
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #ffffff; /* White for odd rows */
+}
+
+/* Table Data Cell Styling */
+td {
+    padding: 12px 20px;
+    text-align: left;
+    border: 1px solid #d1edd1; /* Light green border for all cells */
+    color: #333; /* Darker text color for readability */
+    vertical-align: middle; /* Aligns content vertically in the middle */
+    transition: background-color 0.2s ease; /* Smooth transition for cell hover effect */
+}
+
+/* Cell hover effect: Only the individual cell changes color */
+td:hover {
+    background-color: #c9f7c9; /* Light green on cell hover */
+    cursor: pointer; /* Indicates interactivity */
+}
+
+/* Example for specific column alignment (e.g., numbers) */
+td.numeric {
+    text-align: right;
+    font-family: 'Roboto Mono', monospace; /* Monospaced font for numbers */
+}
