@@ -68,4 +68,9 @@ async def dlt(request:Request):
      collection.delete_one(query)
      print(query)
      return {"status":"deleted"}
-     
+@app.post('/updatecell')     
+async def updatecell(request:Request):
+    data=await request.json()
+    print(data)
+    collection.update_one({"workname":data["workname"]},{"$set":{"workname":"changed"}})
+    return {"status":"update of cell "}

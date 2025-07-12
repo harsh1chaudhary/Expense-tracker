@@ -226,6 +226,27 @@ async function showork(worktittle=0) {
 
 
 
+async function updatecell(workname,tableno,headername,cell) {
+    console.log('updatingggg:',workname,tableno,headername,cell);
+    try {
+       const response=await fetch('/updatecell' ,{method:'POST', headers: {'Content-Type': 'application/json'},body:JSON.stringify({workname:workname,tablename:tableno,headername:headername,cell:cell})});
+       if (response.ok){
+        console.log("update of cell successfull")
+       }
+       if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+    } 
+
+    catch (error) {
+        console.log(error);
+        
+    }
+
+    }
+
+
 
 async function addwork(){
     const worktittle=document.getElementById('worktittle');
@@ -273,11 +294,26 @@ async function addwork(){
 window.onload=()=>{
     let activeeditable=null;
     collection_contain.addEventListener('click',(e)=>{
-        if(activeeditable!=null){
+        if(activeeditable!=null && activeeditable.tagName=='TD'){
             console.log("content edit---->",activeeditable.textContent)
             console.log("nearest",activeeditable.closest("details"));
+            console.log("nearest table:",activeeditable.closest("table"));
+
+            let active_detail=activeeditable.closest("details");
+            let active_summary=active_detail.querySelector("summary");
+            let active_table=activeeditable.closest("table");
+            let active_caption=active_table.querySelector("caption");
+
+
+
+            
+            updatecell(active_summary.textContent,active_caption.textContent,"final exp",activeeditable.textContent);
+
+
+         
 
         }
+        
 
         
 
@@ -286,6 +322,7 @@ window.onload=()=>{
         const clickeditem=e.target;
 
         activeeditable=clickeditem;
+        
        
         console.log('target is:',clickeditem)
     })

@@ -3,7 +3,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #ffffff; /* Very light green background for the body */
+    background-color: #ffffff; 
 }
 
 /* Base styling for details element */
@@ -93,7 +93,7 @@ table {
     border-radius: 10px; /* Slightly rounded corners for the table */
     overflow: hidden; /* Ensures border-radius applies to inner content */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* A clean, readable font */
-    border: 1px solid #a7d9b7; /* Green border for the whole table */
+    border: 1px solid #044118; /* Green border for the whole table */
 }
 
 /* Table Header Styling */
