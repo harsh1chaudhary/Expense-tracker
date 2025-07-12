@@ -44,12 +44,16 @@ def home(request:Request):
 async def add(request:Request):
     data= await request.json()
     print(data)
-    document=collection.find({"workname":data["workname"]})
-    if document:
+    xy=collection.find_one({"workname":data["workname"]})
+    if xy:
         return {"status":"failed due to duplication"}
     result =collection.insert_one(data)
 
     return {"status": "ok", "inserted_id": str(result.inserted_id)}
+
+
+
+
 @app.get('/additems')
 def additem(request:Request):
     data=request.json() 
@@ -60,14 +64,29 @@ def showork():
 
 
     return (list(collection.find({}, {"_id": False})))
+@app.post('/createtable')
+async def createtable(request:Request):
+     data= await request.json()
+     table_row = {
+        "caption": data["caption"],
+        "Exp": "-1",
+        "name": "iron rod",
+        "final price": "$$$$$"
+    }
+     filter_query={"workname":data["workname"]}
+     collection.update_one(filter_query,{"$push":{"table":{"caption":data["caption"],"Exp":"-1","name":"iron rod","final price":"$$$$$"}}})
+
+     return {"status":"created table"}
 
 @app.post('/dlt')
 async def dlt(request:Request):
      data= await request.json()
+   
      query=data
      collection.delete_one(query)
      print(query)
      return {"status":"deleted"}
+
 @app.post('/updatecell')     
 async def updatecell(request:Request):
     data=await request.json()

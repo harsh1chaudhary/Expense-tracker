@@ -9,10 +9,12 @@ function edit(event){
     
 
 }
-function createtable(event){
+async function createtable(event){
     console.log('creating table')
     const button = event.currentTarget;
     const details = button.closest('details'); 
+    const summary = details.querySelector('summary');
+
     const div=document.createElement("div");
     const tables = details.querySelectorAll('table');
     console.log(`Total tables: ${tables.length}`);
@@ -36,6 +38,21 @@ function createtable(event){
     </table>
 `;
     details.appendChild(div);
+    try{
+         const response=await fetch('/createtable' ,{method:'POST',        headers: {
+            'Content-Type': 'application/json'
+        },body:JSON.stringify({workname:summary.textContent,caption:`${tables.length + 1}`})});
+        if (!response.ok){
+            console.log("something wrong")
+        }
+        result=await response.json()
+        console.log(result);
+
+    }
+    catch(erorr){
+        console.log(error);
+
+    }
 
 
 }
@@ -118,6 +135,7 @@ function showcasse(work){
     const summary=document.createElement('summary');
     const dltbutton=document.createElement('button');
     const createtble=document.createElement('button');
+
     dltbutton.innerText='DLT'
     dltbutton.addEventListener('click',deleted);
     createtble.addEventListener('click',createtable);
@@ -132,10 +150,13 @@ function showcasse(work){
     for (let i of work["table"]){
         console.log(i);
         const table=document.createElement('table');
+        const caption=document.createElement('caption')
         const thead=document.createElement('thead');
         const tbody=document.createElement('tbody');
         const tr=document.createElement('tr');
         const tdr=document.createElement('tr');
+        caption.innerText=i["caption"];
+        table.appendChild(caption)
       
         for (let row in i){
             const th=document.createElement('th');
