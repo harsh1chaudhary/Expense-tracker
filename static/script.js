@@ -324,11 +324,20 @@ window.onload=()=>{
             let active_summary=active_detail.querySelector("summary");
             let active_table=activeeditable.closest("table");
             let active_caption=active_table.querySelector("caption");
+            const row=activeeditable.parentElement;
+            console.log("row:",row);
+            const colindex=Array.from(row.children).indexOf(activeeditable);
+            console.log("header is:-",colindex);
+            const headerrow=active_table.querySelector("thead tr") ||active_table.row[0];
+            const headerCell=headerrow?.children[colindex];
+            const headtext=headerCell?.textContent?.trim();
+            console.log("headtext:",headtext);
 
+            
 
 
             
-            updatecell(active_summary.textContent,active_caption.textContent,"final exp",activeeditable.textContent);
+            updatecell(active_summary.textContent,active_caption.textContent,headtext,activeeditable.textContent);
 
 
          

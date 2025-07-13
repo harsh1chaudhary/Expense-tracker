@@ -69,12 +69,12 @@ async def createtable(request:Request):
      data= await request.json()
      table_row = {
         "caption": data["caption"],
-        "Exp": "-1",
-        "name": "iron rod",
+        "Expense Name": "-1",
+        "Date": "12.12.12",
         "final price": "$$$$$"
     }
      filter_query={"workname":data["workname"]}
-     collection.update_one(filter_query,{"$push":{"table":{"caption":data["caption"],"Exp":"-1","name":"iron rod","final price":"$$$$$"}}})
+     collection.update_one(filter_query,{"$push":{"table":table_row}})
 
      return {"status":"created table"}
 
@@ -91,5 +91,5 @@ async def dlt(request:Request):
 async def updatecell(request:Request):
     data=await request.json()
     print(data)
-    collection.update_one({"workname":data["workname"]},{"$set":{"workname":"changed"}})
+    collection.update_one({"workname":data["workname"]},{"$set":{f'table.$[elem].{data["headername"]}':data["cell"]}},array_filters=[{"elem.caption":data["tablename"]}])
     return {"status":"update of cell "}
