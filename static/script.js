@@ -1,4 +1,5 @@
 
+
 const collection_contain=document.getElementById('collection-container')
 function edit(event){
     const button = event.currentTarget;
@@ -9,6 +10,22 @@ function edit(event){
     
 
 }
+function add_colom(e){
+    console.log("inside the funtoon",e)
+    const table= e.querySelector("table");
+    const th=document.createElement('th');
+    th.textContent="new data";
+    th.contentEditable=true
+    const thead=table.querySelector("thead");
+    const tr=thead.querySelector("tr");
+    tr.appendChild(th)
+
+
+
+
+
+}
+
 async function createtable(event){
     console.log('creating table')
     const button = event.currentTarget;
@@ -19,14 +36,19 @@ async function createtable(event){
     const tables = details.querySelectorAll('table');
     console.log(`Total tables: ${tables.length}`);
     div.innerHTML = `
+
     <table border="1">
         <caption contenteditable="true">${tables.length + 1}</caption>
+        <button class="add_colo">ADD COloum</button>
+        
         <thead>
             <tr>
                 <th contenteditable="true">Expense Name</th>
                 <th contenteditable="true">Date</th>
                 <th contenteditable="true">Final Expense</th>
+              
             </tr>
+           
         </thead>
         <tbody>
             <tr>
@@ -133,8 +155,18 @@ function showcasse(work){
     const workdiv=document.createElement('div');
     const details=document.createElement('details');
     const summary=document.createElement('summary');
+    const savebutton=document.createElement('button');
     const dltbutton=document.createElement('button');
     const createtble=document.createElement('button');
+    savebutton.innerText="Save";
+    savebutton.style.display="none"
+    savebutton.className="savebutton";
+    savebutton.addEventListener('click',()=>{
+        savebutton.style.display="none"
+        console.log("save button pressed")
+
+    })
+    details.appendChild(savebutton)
 
     dltbutton.innerText='DLT'
     dltbutton.addEventListener('click',deleted);
@@ -313,16 +345,55 @@ async function addwork(){
 }
 
 window.onload=()=>{
+   
+
+
+
+
+
+
+
+
+
+
+
+
     let activeeditable=null;
+    let xactive=null;
+
+    collection_contain.addEventListener("focusin",(e)=>{
+        if (e.target.tagName=="TD"){
+        activeeditable=e.target;
+         let active_detail=activeeditable.closest("details");
+            const savebut=active_detail.querySelector(".savebutton");
+            savebut.style.display="block";
+    };
+
+    })
+    collection_contain.addEventListener("focusout",(e)=>{
+        if(activeeditable.tagName=="TD"){
+
+
+        }
+    })
+    
     collection_contain.addEventListener('click',(e)=>{
         if(activeeditable!=null && activeeditable.tagName=='TD'){
+            
             console.log("content edit---->",activeeditable.textContent)
             console.log("nearest",activeeditable.closest("details"));
+            
             console.log("nearest table:",activeeditable.closest("table"));
+            
+
+     
+
 
             let active_detail=activeeditable.closest("details");
+
             let active_summary=active_detail.querySelector("summary");
             let active_table=activeeditable.closest("table");
+
             let active_caption=active_table.querySelector("caption");
             const row=activeeditable.parentElement;
             console.log("row:",row);
@@ -343,6 +414,10 @@ window.onload=()=>{
          
 
         }
+        if (activeeditable!=null &&activeeditable.textContent=="ADD COloum"){
+            add_colom(activeeditable.closest("div"));
+        }
+        
         
 
         
